@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom';
 import './Home.css';
+import {useContext} from "react";
+import { Context } from '../Context';
 
 function Home(){
+
+    const {user, setUser} = useContext(Context);
+
     return(
         <div>
             <header className="header">
@@ -11,12 +16,18 @@ function Home(){
                     <ul className="nav_items">
                         <li className="nav_item">
                             <Link to='/' className="nav_link">Home</Link>
-                            <Link to='/products' className="nav_link">Product</Link>
-                            <Link to='/' className="nav_link">Services</Link>
-                            <Link to='/' className="nav_link">Contact</Link>
+                            {user ? 
+                            <>
+                                <Link to='/products' className="nav_link">Product</Link>
+                                <Link to='/' className="nav_link">Services</Link>
+                                <Link to='/' className="nav_link">Contact</Link>
+                            </> : <></>
+                            }
                         </li>
                     </ul>
-                    <Link className="button" id="form-open" to='/login'>Login</Link>
+                    {
+                        user ? <></> : <Link className="button" id="form-open" to='/login'>Login</Link>
+                    }
                 </nav>
             </header>
 
@@ -39,7 +50,7 @@ function Home(){
                             <div className="option_field">
                                 <span className="checkbox">
                                     <input type="checkbox" id="check" />
-                                    <label for="check">Remember me</label>
+                                    <label htmlFor="check">Remember me</label>
                                 </span>
                                 <a href="#" className="forgot_pw">Forgot password?</a>
                             </div>

@@ -43,9 +43,6 @@ function Signup(){
                     <ul className="nav_items">
                         <li className="nav_item">
                             <Link to='/' className="nav_link">Home</Link>
-                            <Link to='/' className="nav_link">Product</Link>
-                            <Link to='/' className="nav_link">Services</Link>
-                            <Link to='/' className="nav_link">Contact</Link>
                         </li>
                     </ul>
 
@@ -73,7 +70,7 @@ function Signup(){
                             <div className="option_field">
                                 <span className="checkbox">
                                     <input type="checkbox" id="check" />
-                                    <label for="check">Remember me</label>
+                                    <label htmlFor="check">Remember me</label>
                                 </span>
                                 <Link to='/' className="forgot_pw">Forgot password?</Link>
                             </div>

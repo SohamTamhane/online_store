@@ -1,13 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
 import {BiArrowBack} from 'react-icons/bi';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { auth } from '../config/firebase';
 import {signInWithEmailAndPassword} from "firebase/auth";
+import { Context } from '../Context';
 
 function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const navigate = useNavigate();
+
+    const {user, setUser} = useContext(Context);
 
     async function submitFunc(){
         if(email==='' || password===''){
@@ -15,8 +20,11 @@ function Login(){
         }
         else{
             try{
-                await signInWithEmailAndPassword(auth, email, password);
-                alert('Login Successfully !!');
+                await signInWithEmailAndPassword(auth, email, password).then((userDetails)=>{
+                    setUser(userDetails.user.email);
+                });
+                navigate('/');
+                // alert('Login Successfully !!');
             }
             catch(error){
                 console.log(error);
@@ -34,9 +42,6 @@ function Login(){
                     <ul className="nav_items">
                         <li className="nav_item">
                             <Link to='/' className="nav_link">Home</Link>
-                            <Link to='/' className="nav_link">Product</Link>
-                            <Link to='/' className="nav_link">Services</Link>
-                            <Link to='/' className="nav_link">Contact</Link>
                         </li>
                     </ul>
 
@@ -63,7 +68,7 @@ function Login(){
                             <div className="option_field">
                                 <span className="checkbox">
                                     <input type="checkbox" id="check" />
-                                    <label for="check">Remember me</label>
+                                    <label htmlFor="check">Remember me</label>
                                 </span>
                                 <Link href="/login" className="forgot_pw">Forgot password?</Link>
                             </div>
