@@ -15,7 +15,7 @@ function Home(){
 
                     <ul className="nav_items">
                         <li className="nav_item">
-                            <Link to='/' className="nav_link">Home</Link>
+                            {/* <Link to='/' className="nav_link">Home</Link> */}
                             {user ? 
                             <>
                                 <Link to='/products' className="nav_link">Product</Link>
