@@ -10,6 +10,7 @@ import AppContext from './Context';
 import OrdersPage from './components/OrdersPage';
 import AdminPage from './components/AdminPage';
 import AdminOrders from './components/AdminOrders';
+import AdminLogin from './components/AdminLogin';
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
             <Route path='/cart' element={<CartPage/>}/>
             <Route path='/orders' element={<OrdersPage/>}/>
             <Route path='/admin' element={<AdminPage/>}/>
+            <Route path='/adminLogin' element={<AdminLogin/>}/>
             <Route path='/admin/orders' element={<AdminOrders/>}/>
         </Routes>
         </AppContext>

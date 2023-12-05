@@ -1,11 +1,41 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
-import {useContext} from "react";
+import {BiArrowBack} from 'react-icons/bi';
+import { useContext, useState } from 'react';
+import { auth } from '../config/firebase';
+import {signInWithEmailAndPassword} from "firebase/auth";
 import { Context } from '../Context';
 
-function Home(){
+function AdminLogin(){
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const navigate = useNavigate();
 
     const {user, setUser} = useContext(Context);
+
+    async function submitFunc(){
+        if(email==='' || password===''){
+            alert('Please Enter Email or Password');
+        }
+        else{
+            try{
+                await signInWithEmailAndPassword(auth, email, password).then((userDetails)=>{
+                    setUser(userDetails.user.email);
+                });
+                if(email==='dhanarajhotel@gmail.com' && password==="dhanaraj123"){
+                    navigate('/admin');
+                }
+                else{
+                    alert('Incorrect Details');
+                }
+            }
+            catch(error){
+                console.log(error);
+                alert(error.message);
+            }
+        }
+    }
 
     return(
         <div>
@@ -15,53 +45,35 @@ function Home(){
 
                     <ul className="nav_items">
                         <li className="nav_item">
-                            {/* <Link to='/' className="nav_link">Home</Link> */}
-                            {user ? 
-                            <>
-                                <Link to='/products' className="nav_link">Product</Link>
-                                <Link to='/' className="nav_link">Services</Link>
-                                <Link to='/' className="nav_link">Contact</Link>
-                            </> : <></>
-                            }
+                            <Link to='/' className="nav_link">Home</Link>
                         </li>
                     </ul>
-                    {
-                        <div>
-                            {user ? <></> : <Link className="button" id="form-open" to='/login'>Login</Link>}
-                            {user ? <></> : <Link className="button admin-btn" id="form-open" to='/adminLogin'>Admin Login</Link>}
-                        </div>
-                    }
+
+                    <button className="button" id="form-open">Login</button>
                 </nav>
             </header>
 
-            <section className="home">
+            <section className="home show">
                 <div className="form_container">
                     <i className="uil uil-times form_close"></i>
+                    <Link to='/'><BiArrowBack className="back-icon"/></Link>
                     <div className="form login_form">
-                        <form action="#">
-                            <h2>Login</h2>
+                            <h2>Admin Login</h2>
                             <div className="input_box">
-                                <input type="email" placeholder="Enter your email" required />
+                                <input type="email" placeholder="Enter your email" onChange={(event)=>setEmail(event.target.value)} required />
                                 <i className="uil uil-envelope-alt email"></i>
                             </div>
                             <div className="input_box">
-                                <input type="password" placeholder="Enter your password" required />
+                                <input type="password" placeholder="Enter your password" onChange={(event)=>setPassword(event.target.value)} required />
                                 <i className="uil uil-lock password"></i>
                                 <i className="uil uil-eye-slash pw_hide"></i>
                             </div>
 
-                            <div className="option_field">
-                                <span className="checkbox">
-                                    <input type="checkbox" id="check" />
-                                    <label htmlFor="check">Remember me</label>
-                                </span>
-                                <a href="#" className="forgot_pw">Forgot password?</a>
-                            </div>
+                            
 
-                            <button className="button">Login Now</button>
+                            <button onClick={submitFunc} className="button">Login Now</button>
 
-                            <div className="login_signup">Don't have an account? <Link to='/' id="signup">Signup</Link></div>
-                        </form>
+                            
                     </div>
 
                     <div className="form signup_form">
@@ -85,7 +97,7 @@ function Home(){
 
                             <button className="button">Signup Now</button>
 
-                            <div className="login_signup">Already have an account? <Link to='/' id="login">Login</Link></div>
+                            <div className="login_signup">Already have an account? <Link to={'/login'} id="login">Login</Link></div>
                         </form>
                     </div>
                 </div>
@@ -93,5 +105,4 @@ function Home(){
         </div>
     )
 }
-
-export default Home;
+export default AdminLogin;

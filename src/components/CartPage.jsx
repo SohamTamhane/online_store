@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import './ProductPage.css';
 import { Context } from '../Context';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import CartItem from './CartItem';
 import LogoImg from '../assests/th.jpg';
 
@@ -21,6 +21,20 @@ function CartPage(){
         catch(err){
             console.log(err);
         }
+    }
+
+    function linkPayment(){
+        
+        function isWindowClosed(){
+            if(win && win.closed){
+                clearInterval(timer);
+                createOrder();
+            }
+        }
+
+        let win = window.open('https://buy.stripe.com/test_cN27vE7cM1Exem4aEF', 'Payment Window', "width=700,height=700");
+        console.log(win);
+        let timer = setInterval(isWindowClosed,1000);
     }
 
     return(
@@ -52,7 +66,7 @@ function CartPage(){
                             ))
                         }
                         <div className="btn-box">
-                            <button onClick={createOrder} className="cart-btn">Place Order</button>
+                            <button onClick={linkPayment} className="cart-btn">Place Order</button>
                         </div>
                     </div>
                 </div>

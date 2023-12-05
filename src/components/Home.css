@@ -206,3 +206,6 @@ a {
     color: black;
     cursor: pointer;
 }
+.admin-btn{
+  margin-left: 10px;
+}
